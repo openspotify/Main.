@@ -1,0 +1,20 @@
+body{
+  background-color: black;
+  color: white;
+}
+
+.img{
+  background-color: white;
+  width: 30px;
+  color: white ;
+}
+
+.left{
+  width: 25vw;
+}
+
+.right{
+  width: 75vw;
+}
+
+
