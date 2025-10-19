@@ -62,17 +62,15 @@ jobs:
           Restart-Service -Name TermService -Force
           Write-Host "✅ RDP configured and firewall open."
 
-      - name: Create RDP User with Random Password
+      - name: Create RDP User
         run: |
-          Add-Type -AssemblyName System.Security
-          $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+'
-          $password = -join ((1..14) | ForEach-Object { $chars | Get-Random })
+          $password = "abhash@#&12+-"
           $securePass = ConvertTo-SecureString $password -AsPlainText -Force
           New-LocalUser -Name "abhash" -Password $securePass -AccountNeverExpires
           Add-LocalGroupMember -Group "Administrators" -Member "abhash"
           Add-LocalGroupMember -Group "Remote Desktop Users" -Member "abhash"
           echo "USER_CREDS=User: abhash | Password: $password" >> $env:GITHUB_ENV
-          Write-Host "✅ Created RDP user 'abhash' with random password."
+          Write-Host "✅ Created RDP user 'abhash' with fixed password."
 
       - name: Install Tailscale
         run: |
@@ -103,7 +101,7 @@ jobs:
           Write-Host "`n========= RDP ACCESS INFO ========="
           Write-Host "Tailscale IP: $env:TAILSCALE_IP"
           Write-Host "Username: abhash"
-          Write-Host "Password: $(echo $env:USER_CREDS)"
+          Write-Host "Password: abhash@#&12+-"
           Write-Host "==================================`n"
           while ($true) {
             Write-Host "[$(Get-Date)] RDP Active — press Stop to end"
